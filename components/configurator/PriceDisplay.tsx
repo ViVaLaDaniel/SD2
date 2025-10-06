@@ -7,6 +7,7 @@ import { calculatePrice, formatPrice } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 /**
  * AnimatedNumber component

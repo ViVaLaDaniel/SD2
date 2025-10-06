@@ -1,5 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
-import { Database } from "@/types/supabase"; // We will create this type definition later
+import { Database } from "@/lib/database.types";
 
 /**
  * Creates a Supabase client for client-side (browser) usage.

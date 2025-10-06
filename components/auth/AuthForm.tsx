@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { customZodResolver } from "@/lib/customZodResolver";
 import * as z from "zod";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -58,7 +58,7 @@ export default function AuthForm({ mode, action }: AuthFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: customZodResolver(schema),
   });
 
   const onSubmit = (data: FormValues) => {

@@ -31,7 +31,8 @@ export default async function ProfilePage() {
     .from("orders")
     .select("*")
     .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .returns<Order[]>();
 
   if (error) {
     console.error("Error fetching orders:", error);
@@ -58,7 +59,7 @@ export default async function ProfilePage() {
             <CardContent>
               {orders && orders.length > 0 ? (
                 <ul className="space-y-4">
-                  {orders.map((order: Order) => (
+                  {orders.map((order) => (
                     <li key={order.id} className="p-4 border rounded-lg flex justify-between items-center">
                       <div>
                         <p className="font-semibold">Order ID: {order.id.substring(0, 8)}</p>

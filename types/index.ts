@@ -1,3 +1,5 @@
+import { Tables } from "@/lib/database.types";
+
 /**
  * Represents the configuration of a meal plan selected by the user.
  * This interface is used throughout the configurator and checkout process.
@@ -36,17 +38,11 @@ export interface UserProfile {
 }
 
 /**
- * Represents an order placed by a user.
- * This will be stored in the 'orders' table in Supabase.
+ * Represents an order placed by a user, derived from the database schema.
+ * It overrides the 'status' and 'meal_plan_config' properties with stricter types
+ * for use within the application.
  */
-export interface Order {
-  id: string; // Unique order ID
-  user_id: string;
-  created_at: string;
-  status: 'pending' | 'paid' | 'delivered' | 'cancelled';
-  total_price: number;
-  currency: string;
-  // The specific meal plan configuration for this order
+export type Order = Omit<Tables<"orders">, "status" | "meal_plan_config"> & {
+  status: "pending" | "paid" | "delivered" | "cancelled";
   meal_plan_config: MealPlanConfig;
-  stripe_payment_intent_id?: string;
-}
+};
