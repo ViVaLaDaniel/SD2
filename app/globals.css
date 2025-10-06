@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-slate-800;
+  }
+}
+
+@layer components {
+  .glassmorphism {
+    @apply bg-white/30 backdrop-blur-lg border border-white/20 shadow-subtle;
+  }
+}
