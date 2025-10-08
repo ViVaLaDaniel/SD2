@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { motion, animate } from "framer-motion";
 import { useMealPlanStore } from "@/lib/store";
@@ -24,11 +23,14 @@ function AnimatedNumber({ value }: { value: number }) {
       ease: "easeOut",
       onUpdate: (latest) => setDisplayValue(latest),
     });
+
     return () => controls.stop();
   }, [value, displayValue]);
 
   return (
-    <motion.span>{formatPrice(Math.round(displayValue))}</motion.span>
+    <motion.span>
+      {formatPrice(Math.round(displayValue))}
+    </motion.span>
   );
 }
 
@@ -55,6 +57,7 @@ const PriceDisplay = () => {
    */
   const handleCheckout = async () => {
     setIsLoading(true);
+    
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',
@@ -63,19 +66,21 @@ const PriceDisplay = () => {
         },
         body: JSON.stringify({ config }),
       });
-
+      
       const session = await response.json();
+      
       if (response.ok) {
         // Redirect to Stripe's checkout page
         window.location.href = session.url;
       } else {
-        // Show an error message to the user
-        toast.error(session.error || "An unexpected error occurred.");
+        // Show an error message to the user - replaced toast with console.error
+        console.error(session.error || "An unexpected error occurred.");
+        alert(session.error || "An unexpected error occurred.");
         setIsLoading(false);
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      toast.error("Failed to connect to the payment service.");
+      alert("Failed to connect to the payment service.");
       setIsLoading(false);
     }
   };
@@ -89,13 +94,20 @@ const PriceDisplay = () => {
             <AnimatedNumber value={prices.pricePerDay} />
           </span>
         </div>
+        
         <div className="text-right">
           <span className="text-sm text-text/80">Total for {config.duration} days</span>
           <p className="text-3xl font-bold text-slate-800">
             <AnimatedNumber value={prices.totalPrice} />
           </p>
         </div>
-        <Button size="lg" onClick={handleCheckout} isLoading={isLoading} className="min-w-[180px]">
+        
+        <Button 
+          className="min-w-[180px]" 
+          isLoading={isLoading} 
+          onClick={handleCheckout} 
+          size="lg"
+        >
           Proceed to Checkout
         </Button>
       </CardContent>
